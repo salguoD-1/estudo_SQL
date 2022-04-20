@@ -127,3 +127,48 @@ O exemplo abaixo armazena os arquivos no formato JSON(JavaScript Object Notation
 
 * O google search é uma query.
 
+# Tabelas e chaves(Tables and Keys)
+
+![Tables_and_keys](tables.PNG)
+
+* Note que nessa tabela temos 3 colunas, sendo elas:
+    * student_id, name e major.
+
+	* Nessa tabela estamos armazenando 3 informações sobre cada aluno.
+
+	* Cada coluna terá apenas um atributo.
+
+	* As linhas representam uma entrada ou um aluno real.
+
+Sempre que estamos criando uma tabela em um banco de dados relacional, queremos ter uma coluna especial que é chamada de chave primária, basicamente ela define exclusivamente a linha no banco de dados. No exemplo acima, student_id é a nossa chave primária. No exemplo acima, temos o nome Jack aparecendo duas vezes, note que são informações iguais, nesse caso a chave primária atua fazendo com que cada informação tenha o seu próprio identificador(nesse caso 2 e 4 são os id's).
+
+## Outro exemplo
+
+![Tables_and_keys2](tables2.PNG)
+
+Note que no exemplo acima a nossa chave primária está na coluna email, cada email é único e possui as suas devidas informações em cada linha.
+
+## Outro exemplo
+
+![Tables_and_keys3](tables3.PNG)
+
+No exemplo acima a nossa chave primária é emp_id.
+
+# Chave estrangeira
+
+Uma chave estrangeira basicamente armazena a chave primária de uma linha em outra tabela do banco de dados.
+
+![Tables_and_keys4](tables4.PNG)
+
+## Exemplo detalhado
+
+No exemplo abaixo Jan Levinson(emp_id = 100) possui uma branch_id como sendo 1, esse 1 é basicamente a chave primária da tabela branch_id(segunda imagem).
+
+![Tables_and_keys5](tables5.PNG)
+
+![Tables_and_keys6](tables6.PNG)
+
+Em resumo, uma chave estrangeira nos permite definir relacionamentos entre as duas tabelas.
+
+Podemos ter duas ou mais chaves primárias, que são chamadas de chaves compostas.
+
