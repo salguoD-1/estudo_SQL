@@ -172,3 +172,41 @@ Em resumo, uma chave estrangeira nos permite definir relacionamentos entre as du
 
 Podemos ter duas ou mais chaves primárias, que são chamadas de chaves compostas.
 
+# Noções Básicas de SQL
+
+## Structured Query Language(SQL):
+
+* É uma linguagem híbrida, contendo 4 típos de linguagens em uma só:
+	* Data Query Language(DQL):
+		* É utilizado para fazer consultas no banco de dado para obter informações.	
+		
+		* Pega as informações que já estão armazenadas no banco de dados.
+
+	* Data Definition Language(DDL):
+		* É utilizado para definir esquemas.
+
+	* Data Control Language(DCL):
+		* É utilizado para controlar o acesso a dados no banco de dados.
+		
+		* Gerenciamento de usuários e permissões.
+
+	* Data Manipulation Language(DML):
+		* É utilizado para inserir, atualizar e deletar informações do banco de dados.
+
+
+# Queries
+
+* Uma query(consulta) é um conjunto de instruções dadas ao RDBMS(Relational Database Management System) que basicamente diz ao RBDMS qual informação nós queremos recuperar.
+
+Exemplo de query
+
+```sql
+SELECT employee.name, employee.age
+FROM employee
+WHERE employee.salary > 30000;
+```
+
+Basicamente o que essa query faz é:
+- Seleciona o nome e idade do empregado
+- Utiliza o nome da tabela(employee) para fazer a consulta(query)
+- Recebe apenas informações sobre salários acima de 30000.
