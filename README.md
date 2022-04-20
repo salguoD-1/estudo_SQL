@@ -210,3 +210,156 @@ Basicamente o que essa query faz é:
 - Seleciona o nome e idade do empregado
 - Utiliza o nome da tabela(employee) para fazer a consulta(query)
 - Recebe apenas informações sobre salários acima de 30000.
+
+# Criando um banco de dados
+
+Para criar um banco de dados basta executar o seguinte comando:
+
+```sql
+CREATE DATABASE <nome_do_banco_de_dados;>
+```
+
+OBS: Toda declaração precisa de um ponto e vírgula no final.
+
+# Alguns tipos de dados usados na linguagem SQL
+
+* INT - Números inteiros
+
+* DECIMAL(M, N) - Números decimais
+	* M = Quantidade de números que queremos armazenar
+	
+	* N = Número de casas decimais que queremos ter
+
+* VARCHAR(10) - String de texto
+	* Armazena uma string de 10 caracteres
+
+* BLOB - Conhecido como Binary Large Object, armazena binários
+
+* DATE - Tipo data(YYYY-MM-DD)
+
+* TIMESTAMP - Armazena data e hora(YYYY-MM-DD HH:MM:SS)
+	* É utilizado para gravar a data e hora que algo aconteceu(Ex: Gravar a data/hora que um item foi inserido no banco de dados).
+
+# Criando tabelas
+
+Para criar tabelas em nosso banco de dados fazemos uso do comando:
+
+```sql
+CREATE TABLE <nome_da_tabela> ();
+```
+
+## Criando uma tabela onde armazena informações sobre estudantes
+
+```sql
+CREATE TABLE student (
+	student_id INT PRIMARY KEY,
+	name VARCHAR(20),
+	major VARCHAR(20)
+);
+```
+
+Note que no exemplo acima criamos uma tabela chamada student que possui 3 colunas(student_id, name e major) e seus respectivos atributos. A coluna student_id é a nossa primary key(chave primária). Separamos cada atributo utilizando vírgula.
+
+Utilizando o comando:
+```sql
+DESCRIBE <nome_da_tabela>;
+```
+
+Irá exibir todas as informações sobre a quantidade de colunas/linhas e os atributos.
+
+
+Utilizando o comando:
+```sql
+DROP TABLE <nome_da_tabela>;
+```
+
+O comando acima irá excluir a nossa tabela.
+
+Usando o comando:
+```sql
+ALTER TABLE student ADD gpa DECIMAL(3, 2);
+```
+
+O comando acima adiciona uma nova coluna a nossa tabela student, essa coluna se chama gpa e tem o tipo DECIMAL contendo 3 números com duas casas decimais.
+
+Usando o comando:
+```sql
+DESCRIBE student;
+```
+
+Teremos o seguinte resultado:
+
+```
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| student_id | int          | NO   | PRI | NULL    |       |
+| name       | varchar(20)  | YES  |     | NULL    |       |
+| major      | varchar(20)  | YES  |     | NULL    |       |
+| gpa        | decimal(3,2) | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+```
+
+Podemos remover uma coluna da nossa tabela usando o comando:
+```sql
+ALTER TABLE student DROP COLUMN gpa;
+```
+
+O comando acima irá remover a coluna gpa da nossa tabela student.
+
+
+## Usando o terminal para manipular o nosso banco de dados
+
+Utilizando os comandos no terminal:
+
+```sql
+SHOW DATABASES;
+```
+
+O comando acima irá exibir todos os bancos de dados na nossa máquina.
+
+```sql
+USE <nome_do_banco_de_dados>;
+```
+
+O comando acima irá utilizar o banco de dados que queremos.
+
+```sql
+SHOW TABLES;
+```
+
+O comando acima irá exibir todas as tabelas do nosso banco de dados que selecionamos.
+
+# Inserindo dados
+
+Inserindo dados em nossa tabela student
+
+Para inserir dados fazemos uso do comando:
+```sql
+INSERT INTO <nome_da_tabela> VALUES();
+```
+
+O comando acima basicamente irá inserir dados dentro da nossa tabela. Dentro dos parênteses em VALUES passamos os valores para cada coluna fazendo uso da ordem de cada coluna, nesse caso a primeira coluna é student_id, a segunda é name e a última é major, devemos seguir a ordem das colunas.
+
+## Inserindo os dados na nossa tabela student
+```sql
+INSERT INTO student VALUES(1, 'Jack', 'Biology);
+```
+
+O comando acima irá inserir o student_id(1), o name('Jack') e o major('Biology') dentro da nossa tabela student.
+
+
+## Verificando todos os dados da nossa tabela
+Para acessar todas as informações da nossa tabela student fazemos uso do comando:
+```sql
+SELECT * FROM student;
+```
+
+O resultado seria:
+```
++------------+------+---------+
+| student_id | name | major   |
++------------+------+---------+
+|          1 | Jack | Biology |
++------------+------+---------+
+```
