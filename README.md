@@ -363,3 +363,175 @@ O resultado seria:
 |          1 | Jack | Biology |
 +------------+------+---------+
 ```
+
+Inserindo mais dados na nossa tabela student:
+```sql
+INSERT INTO student VALUES(2, 'Kate', 'Sociology');
+```
+
+O resultado será:
+```
++------------+------+-----------+
+| student_id | name | major     |
++------------+------+-----------+
+|          1 | Jack | Biology   |
+|          2 | Kate | Sociology |
++------------+------+-----------+
+```
+
+## Inserindo valores de forma específica
+
+Digamos que o nosso aluno não tenha um major, nesse caso podemos manipular a inserção de dados fazendo com que passemos apenas o seu student_id e o seu name para a tabela:
+```sql
+INSERT INTO student(setudent_id, name) VALUES(3, 'Claire');
+```
+
+Note que especificamos os dois atributos(student_id e name) no qual iremos adicionar.
+
+O resultado será:
+```
++------------+--------+-----------+
+| student_id | name   | major     |
++------------+--------+-----------+
+|          1 | Jack   | Biology   |
+|          2 | Kate   | Sociology |
+|          3 | Claire | NULL      |
++------------+--------+-----------+
+```
+
+Note que o major do student_id 3 é NULL, é NULL porque não passamos nenhuma informação para a coluna major.
+
+NOTA: Não podemos inserir dados duplicados, a chave primária não permitiria dados duplicados.
+
+
+# Constraints(Restrições)
+
+Atributos especificos
+
+* NOT NULL - Basicamente nos permite definir uma ou mais colunas da tabela que não podem ser NULL.
+
+Por exemplo, utilizando a tabela student podemos utilizar o atributo NOT NULL na coluna name, ou seja, a coluna name não pode ter o valor NULL(Nenhum valor).
+
+```sql
+CREATE TABLE student(
+	student_id INT PRIMARY KEY,
+	name VARCHAR(20) NOT NULL,
+	major VARCHAR(20)
+);
+```
+
+Outro exemplo seria o atributo UNIQUE, vejamos:
+
+```sql
+CREATE TABLE student(
+	student_id INT PRIMARY KEY,
+	name VARCHAR(20) NOT NULL,
+	major VARCHAR(20) UNIQUE
+);
+```
+
+Note que utilizamos UNIQUE na coluna major, ou seja, caso tenhamos um valor na coluna major esse valor não pode ser repetido, ele será rejeitado.
+
+## O exemplo seria:
+```sql
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| student_id | int         | NO   | PRI | NULL    |       |
+| name       | varchar(20) | NO   |     | NULL    |       |
+| major      | varchar(20) | YES  | UNI | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+```
+
+## Inserindo dados e testando a tabela student
+
+```sql
+INSERT INTO student VALUES(1, 'Jack', 'Biology');
+INSERT INTO student VALUES(2, 'Kate', 'Sociology');
+INSERT INTO student VALUES(3, NULL,'Chemistry');
+INSERT INTO student VALUES(4, 'Jack', 'Biology');
+INSERT INTO student VALUES(5, 'Mike', 'Computer Science');
+```
+
+Note que o student_id 3 daria problema na coluna name, pois definimos o atributo NOT NULL para a coluna name e estamos passando NULL como argumento, isso resulta no seguinte erro:
+```
+INSERT INTO student VALUES(3, NULL,'Chemistry');
+ERROR 1048 (23000): Column 'name' cannot be null
+```
+
+Note que o student_id 4 da tabela major daria problema, pois Biology ja foi declarado no student_id 1. Isso resulta no seguinte erro:
+
+```
+INSERT INTO student VALUES(4, 'Jack', 'Biology');
+ERROR 1062 (23000): Duplicate entry 'Biology' for key 'student.major'
+```
+
+## Primary Key
+
+A primary-key(chave primária) ela possui tanto o atributo NOT NULL como o atributo UNIQUE. Ela não é vazia e é única.
+
+Nesse caso NOT NULL e UNIQUE são Constraints(restrições).
+
+# Usando o atributo DEFAULT
+
+Digamos que uma pessoa não forneça o seu major, nesse caso podemos utilizar o atributo DEFAULT para atribuir um valor "padrão" caso o usuário não o forneça para a coluna.
+
+```sql
+CREATE TABLE student(
+	student_id INT PRIMARY KEY,
+	name VARCHAR(20),
+	major VARCHAR(20) DEFAULT 'undecided'
+);
+```
+
+Caso o usuário não passe nenhuma informação para a coluna major, o valor padrão(default) será undecided. Vejamos o resultado:
+
+```sql
+INSERT INTO student(student_id, name) VALUES(3, 'Douglas');
+```
+
+Como não inserimos o argumento para a coluna major, o resultado será undecided(padrão).
+
+```sql
++------------+---------+-----------+
+| student_id | name    | major     |
++------------+---------+-----------+
+|          3 | Douglas | undecided |
++------------+---------+-----------+
+```
+
+# Utilizando o atributo AUTO_INCREMENT
+
+O atributo AUTO_INCREMENT basicamente faz o incremento automático, podemos fazer isso na coluna student_id para incrementar automaticamente.
+
+```sql
+CREATE TABLE student(
+	student_id INT PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR(20),
+	major VARCHAR(20)
+);
+```
+
+## Inserindo dados
+
+```sql
+INSERT INTO student(name, major) VALUES('Jack', 'Biology');
+INSERT INTO student(name, major) VALUES('Kate', 'Sociology');
+INSERT INTO student(name, major) VALUES(NULL,'Chemistry');
+INSERT INTO student(name, major) VALUES('Jack', 'Biology');
+INSERT INTO student(name, major) VALUES('Mike', 'Computer Science');
+```
+
+Como o atributo AUTO_INCREMENT faz a incrementação automatica da coluna student_id, temos:
+
+```sql
++------------+------+------------------+
+| student_id | name | major            |
++------------+------+------------------+
+|          1 | Jack | Biology          |
+|          2 | Kate | Sociology        |
+|          3 | NULL | Chemistry        |
+|          4 | Jack | Biology          |
+|          5 | Mike | Computer Science |
++------------+------+------------------+
+```
