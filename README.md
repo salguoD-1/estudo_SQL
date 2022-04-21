@@ -28,7 +28,7 @@ Por exemplo, uma lista com os seus cinco melhores amigos estão armazenados em s
 
 ## A Amazon armazena trilhões de informações
 
-* Armazenam informações como produtos, reviews, pedidos, usuário etc.
+* Armazenam informações como produtos, reviews, pedidos, usuários etc.
 
 * Todas as informações são armazenadas em um computador, computadores são excelentes em armazenar informações.
 
@@ -73,10 +73,10 @@ Os dois principais tipos de banco de dados são:
 * Banco de dados não relacionais(noSQL)
 	* Basicamente organiza os dados de uma forma diferente, o que foge da tabela tradicional.
 
-	* Por exemplo, armazenam informações em key-value(valores-chave), documentos(JSON, XML), gráficos e tabelas flexiveis.
+	* Por exemplo, armazenam informações em key-value(valore-chave), documentos(JSON, XML), gráficos e tabelas flexiveis.
 
 
-# Sistema de gerenciamento de banco de dados relacionais(SGBDR ou RBDMS)
+# Sistema de gerenciamento de banco de dados relacionais(SGBDR ou RDBMS)
 
 * Basicamente ajuda a criar e manter(gerenciar) um banco de dados relacional.
 	* Alguns exemplos são: MySQL, Oracle, PostgreSQL, mariaDB, etc.
@@ -216,7 +216,7 @@ Basicamente o que essa query faz é:
 Para criar um banco de dados basta executar o seguinte comando:
 
 ```sql
-CREATE DATABASE <nome_do_banco_de_dados;>
+CREATE DATABASE <nome_do_banco_de_dados>;
 ```
 
 OBS: Toda declaração precisa de um ponto e vírgula no final.
@@ -535,3 +535,157 @@ Como o atributo AUTO_INCREMENT faz a incrementação automatica da coluna studen
 |          5 | Mike | Computer Science |
 +------------+------+------------------+
 ```
+
+## Atualizando(Update) valores dentro da nossa tabela
+
+Digamos que queremos atualizar a coluna major da nossa tabela acima e modificar os valores Biology para Bio, fazemos isso utilizando o comando:
+
+```sql
+UPDATE student SET major = 'Bio' WHERE major = 'Biology';
+```
+
+O resultado será:
+
+```sql
++------------+---------+-------------------+
+| student_id | name    | major             |
++------------+---------+-------------------+
+|          1 | Jack    | Bio               |
+|          2 | Kate    | Sociology         |
+|          3 | NULL    | Chemistry         |
+|          4 | Jack    | Bio               |
+|          5 | Mike    | Computer Science  |
+|          6 | Douglas | Sistemas de Info. |
++------------+---------+-------------------+
+```
+
+Fazemos uso do atributo SET para definir qual coluna queremos alterar e em seguida passamos a informação nova para a coluna. No entanto é necessário especificar que queremos alterar apenas os valores que contem o major "Biology", para isso utilizamos do atributo WHERE que especifica o que queremos alterar na tabela, nesse caso queremos alterar apenas as colunas que possuem o valor "Biology".
+
+NOTA: Podemos usar operadores como:
+
+* Igual(=)
+
+* Diferente(<>)
+
+* Maior que(>)
+
+* Menor que(<)
+
+* Maior ou igual que(>=)
+
+* Menor ou igual que(<=)
+
+No exemplo acima, fizemos uso do operador de igualdade(=).
+
+## Fazendo múltilas atualizações
+
+Digamos que queremos alterar dois valores de uma tabela de vez, fazemos isso da seguinte forma:
+
+```sql
+UPDATE student SET major = 'Biochemistry' WHERE major = 'Bio' OR major = "Chemistry";
+```
+
+No exemplo acima estamos atualizando as colunas que possuem o major Bio e Chemistry para o novo major que é Biochemistry, nesse caso o operador lógico OR irá alterar ao menos uma coluna que possua Bio ou Chemistry como valor.
+
+Antes de executar o código acima tinhamos a tabela como sendo:
+
+```sql
++------------+---------+-------------------+
+| student_id | name    | major             |
++------------+---------+-------------------+
+|          1 | Jack    | Bio               |
+|          2 | Kate    | Sociology         |
+|          3 | NULL    | Chemistry         |
+|          4 | Jack    | Bio               |
+|          5 | Mike    | Computer Science  |
+|          6 | Douglas | Sistemas de Info. |
++------------+---------+-------------------+
+```
+
+Após executar o comando temos o seguinte resultado:
+
+```sql
++------------+---------+------------------+
+| student_id | name    | major            |
++------------+---------+------------------+
+|          1 | Jack    | Biochemistry     |
+|          2 | Kate    | Sociology        |
+|          3 | NULL    | Biochemistry     |
+|          4 | Jack    | Biochemistry     |
+|          5 | Mike    | Computer Science |
+|          6 | Douglas | Sistemas de Info.|
++------------+---------+------------------+
+```
+
+
+Outro exemplo:
+
+```sql
+UPDATE student SET name = 'Guilherme', major = 'undecided' WHERE student_id = 2;
+```
+
+O exemplo acima irá alterar o nome e o major para Guilherme/undecided onde o student_id é 2, nesse caso o nosso student_id tem o nome "Kate" e o major "Sociology", esse valor será alterado.
+
+```sql
++------------+-----------+------------------+
+| student_id | name      | major            |
++------------+-----------+------------------+
+|          1 | Jack      | Biochemistry     |
+|          2 | Guilherme | undecided        |
+|          3 | NULL      | Biochemistry     |
+|          4 | Jack      | Biochemistry     |
+|          5 | Mike      | Computer Science |
+|          6 | Douglas   | S.I              |
++------------+-----------+------------------+
+```
+
+## Deletando dados de uma tabela
+
+Para deletar dados de uma tabela fazemos uso do comando DELETE FROM <nome_da_tabela> e em seguidas passamosa tributos para especificar o que queremos deletar, caso contrário, iremos deletar todas as linhas da tabela. 
+
+No exemplo abaixo iremos deletar todos os dados onde o student_id seja igual a 5, vejamos:
+
+```sql
+DELETE FROM student WHERE student_id = 5;
+```
+
+Toda a linha que contém o student_id = 5 será deletada.
+
+```sql
++------------+-----------+--------------+
+| student_id | name      | major        |
++------------+-----------+--------------+
+|          1 | Jack      | Biochemistry |
+|          2 | Guilherme | undecided    |
+|          3 | NULL      | Biochemistry |
+|          4 | Jack      | Biochemistry |
+|          6 | Douglas   | S.I          |
++------------+-----------+--------------+
+```
+
+Note que não temos mais o student_id 5 e nenhuma informação na linha. Toda a linha é deletada.
+
+Assim como nos exemplos em Update, podemos explicitar ainda mais, vejamos:
+
+```sql
+DELETE FROM student WHERE name = 'Guilherme' AND major = 'undecided';
+```
+
+O resultado:
+
+```sql
++------------+---------+--------------+
+| student_id | name    | major        |
++------------+---------+--------------+
+|          1 | Jack    | Biochemistry |
+|          3 | NULL    | Biochemistry |
+|          4 | Jack    | Biochemistry |
+|          6 | Douglas | S.I          |
++------------+---------+--------------+
+```
+
+Note que todas as informações da linha 2 foram excluidas. Isso acontece porque o operador lógico AND atua caso ambos os valores sejam verdadeiros(existam).
+
+
+## Basic Queries(Consultas básicas)
+
