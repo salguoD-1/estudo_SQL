@@ -689,3 +689,129 @@ Note que todas as informações da linha 2 foram excluidas. Isso acontece porque
 
 ## Basic Queries(Consultas básicas)
 
+Podemos especificar quais colunas queremos consultar, para isso utilizamos o nome da(s) coluna(s) no lugar de utilizar o símbilo *.
+
+```sql
+SELECT name FROM student;
+```
+
+O resultado:
+
+```sql
++---------+
+| name    |
++---------+
+| Jack    |
+| NULL    |
+| Jack    |
+| Douglas |
++---------+
+```
+
+Podemos também selecionar o name e o major:
+
+```sql
+SELECT name, major FROM student;
+```
+
+O resultado:
+
+```sql
++---------+--------------+
+| name    | major        |
++---------+--------------+
+| Jack    | Biochemistry |
+| NULL    | Biochemistry |
+| Jack    | Biochemistry |
+| Douglas | S.I          |
++---------+--------------+
+```
+
+Bem prático né?
+
+## Ordenando nossa tabela
+
+Podemos ordenar nossa tabela de forma númerica e/ou alfabética utilizando o atributo ORDER BY <nome_da_coluna>
+
+```sql
+SELECT name, major FROM student ORDER BY name;
+```
+
+O resultado:
+
+```sql
++---------+--------------+
+| name    | major        |
++---------+--------------+
+| NULL    | Biochemistry |
+| Douglas | S.I          |
+| Jack    | Biochemistry |
+| Jack    | Biochemistry |
++---------+--------------+
+4 rows in set (0.00 sec)
+```
+
+O resultado será ordenado pela coluna name que foi a que passamos para o ORDER BY.
+
+Caso queira ordenar de forma contrária(decrescente) basta adicionar um DESC após o name, ex:
+
+```sql
+SELECT name, major FROM student ORDER BY name DESC;
+```
+
+O resultado: 
+
+```sql
++---------+--------------+
+| name    | major        |
++---------+--------------+
+| Jack    | Biochemistry |
+| Jack    | Biochemistry |
+| Douglas | S.I          |
+| NULL    | Biochemistry |
++---------+--------------+
+```
+
+Note que invertamos a ordem da tabela name, está ao contrário(decrescente).
+
+Por padrão a ordem é ASC(crescente), mas por algum acaso a tabela esteja decrescente basta adicionar um ASC após o name.
+
+## Limitando a quantidade de dados na pesquisa
+
+Digamos que você queira limitar a quantidade de resultados na sua consulta ao banco de dados, para isso fazemos uso do atributo LIMIT <quantidade_a_ser_mostrada>;
+
+```sql
+SELECT * FROM student LIMIT 2;
+```
+
+O comando acima irá exibir apenas duas linhas de dados.
+
+Exemplo:
+
+```sql
++------------+------+--------------+
+| student_id | name | major        |
++------------+------+--------------+
+|          1 | Jack | Biochemistry |
+|          3 | NULL | Biochemistry |
++------------+------+--------------+
+```
+
+## Utilizando o atributo IN
+
+Digamos que queremos especificar quais valores queremos consultar na nossa tabela, para isso fazemos uso do atributo IN, vejamos:
+
+```sql
+SELECT * FROM student WHERE name IN ('Douglas', 'Gabriela');
+```
+
+O código acima irá selecionar todos os valores Douglas e Gabriela que estão presentes na coluna name.
+
+```sql
++------------+----------+-------+
+| student_id | name     | major |
++------------+----------+-------+
+|          6 | Douglas  | S.I   |
+|          7 | Gabriela | C.C   |
++------------+----------+-------+
+```
