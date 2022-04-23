@@ -815,3 +815,155 @@ O código acima irá selecionar todos os valores Douglas e Gabriela que estão p
 |          7 | Gabriela | C.C   |
 +------------+----------+-------+
 ```
+
+
+## Trabalhando com consulas mais complexas
+
+Iremos trabalhar na modelagem de tabelas mais complexas, onde iremos realizar consultas complexas, vejamos o exemplo abaixo:
+
+![Data-Base-Schema](imagens/company-database-1.png)
+
+Temos Chaves primárias, chaves estrangeiras, temos várias tabelas, veremos mais como modelar tudo isso.
+
+## Criando o banco de dados
+
+Nesse exemplo iremos criar o banco de dados da nossa empresa
+
+```sql
+CREATE DATABASE company_database;
+```
+
+Confirmando que o banco de dados foi criado
+
+```sql
+SHOW DATABASES;
+```
+
+Acessando o banco de dados
+
+```sql
+USE company_database;
+```
+
+## Criando as tabela employee e as suas colunas
+
+```sql
+CREATE TABLE employee(
+	emp_id INT PRIMARY KEY,
+	first_name VARCHAR(40),
+	last_name VARCHAR(40),
+	birth_day DATE,
+	sex VARCHAR(1),
+	salary INT,
+	super_id INT,
+	branch_id INT
+);
+```
+
+Note que nossa primary-key(chave primária) é a coluna emp_id. Lembrando que a coluna super_id e branch_id são foreign-keys(chaves estrangeiras), elas são tabelas que serão criadas daqui a pouco.
+
+## Criando a tabela branch
+
+```sql
+CREATE TABLE branch(
+	branch_id INT PRIMARI KEY,
+	branch_name VARCHAR(40),
+	mgr_id INT,
+	mgr_start_date DATE,
+	FOREIGN KEY(mgr_id) REFERENCES employee(emp_id) ON DELETE SET NULL
+);
+```
+
+* Definimos uma FOREIGN KEY(Chave estrangeira) usando a palavra reservada: FOREIGN KEY(nome_da_coluna) REFERENCES nome_da_tabela(nome_da_coluna) ON DELETE SET NULL
+
+Veremos mais sobre ON DELETE SET NULL mais para frente, mas o resultado seria:
+
+Em resumo nossa chave estrangeira irá fazer uma referência a tabela employee ligada a coluna emp_id, o restante da declaração veremos mais para frente.
+
+## Alterando as colunas branch_id e super_id da tabela employee para fazer a "ligação" com a chave estrangeira
+
+```sql
+ALTER TABLE employee ADD FOREIGN KEY(branch_id) REFERENCES branch(branch_id) ON DELETE SET NULL;
+```
+
+Basicamente o exemplo acima faz um alteração na tabela employee onde adicionamos a coluna branch_id como sendo uma foreign key(chave estrangeira) e em seguida fazemos referência a essa coluna utilizando a tabela branch com a coluna branch_id.
+
+Em resumo: A coluna branch_id da tabela employee irá fazer referência a chave primaria da tabela branch que possui a coluna branch_id.
+
+```sql
+ALTER TABLE employee ADD FOREIGN KEY(super_id) REFERENCES employee(emp_id) ON DELETE SET NULL;
+```
+
+O exemplo acima é semelhante ao anterior, basicamente fazemos a alteração na tabela employee para adicionar uma chave estrangeira, nesse caso a coluna super_id e fazemos referência a coluna emp_id da mesma tabela(employee). 
+
+Em resumo: A coluna super_id da tabela employee irá fazer referência a tabela employee(a sí mesma) só que com a chave primária emp_id.
+
+## Criando a tabela client
+
+```sql
+CREATE TABLE client(
+	client_id INT PRIMARY KEY,
+	client_name VARCHAR(40),
+	branch_id INT,
+	FOREIGN KEY(branch_id) REFERENCES branch(branch_id) ON DELETE SET NULL
+);
+```
+
+No exemplo acima criamos a tabela client e passamos a foreign key passando branch_id como argumento e fazendo referência a tabela branch que possui a chave primária branch_id.
+
+## Criando a tabela works_with
+
+```sql
+CREATE TABLE works_with(
+	emp_id INT,
+	client_id INT,
+	total_sales INT,
+	PRIMARY KEY(emp_id, client_id),
+	FOREIGN KEY(emp_id) REFERENCES employee(emp_id) ON DELETE CASCADE,
+	FOREIGN KEY(client_id) REFERENCES client(client_id) ON DELETE CASCADE
+);
+```
+
+Tanto a chave primária emp_id quanto a chave primária client_id são foreign keys(chaves estrangeiras), a tabela works_with é bem exclusiva e possui chaves compostas. Iremos falar sobre ON DELETE CASCADE E ON DELETE SET NULL futuramente.
+
+## Criando a tabela branch_supplier
+
+```sql
+CREATE TABLE branch_supplier(
+	branch_id INT,
+	supplier_name VARCHAR(40),
+	supply_type VARCHAR(40),
+	PRIMARY KEY(branch_id, supplier_name),
+	FOREIGN KEY(branch_id) REFERENCES branch(branch_id) ON DELETE CASCADE
+);
+```
+
+A tabela branch_supplier é semelhante a tabela works_with, a diferença é que a tabela branch_supplier tem apenas uma chave primária que é estrangeira(branch_id), já supplier_name é única. Fazemos referência a tabela branch e pegamos a coluna branch_id.
+
+## Criamos todas as nossas tabelas, agora iremos inserir dados nelas.
+
+Para inserir dados nas tabelas é um pouco diferente, vejamos:
+
+```sql
+INSERT INTO employee VALUES(100, 'David', 'Wallace', '1967-11-17', 'M', 250000, NULL, NULL);
+
+INSERT INTO branch VALUES(1, 'Corporate', 100, '2006-02-09');
+
+UPDATE employee SET branch_id = 1 WHERE emp_id = 100;
+
+INSERT INTO employe VALUES(101, 'Jan', 'Levinson', '1961-05-11', 'F', 110000, 100, 1);
+```
+
+Na primeira declaração inserimos os valores, no entanto note que os dois ultimos são NULL, pois antes não passamos valores para a tabela branch. Logo em seguida, inseremos valores na tabela branch e fazemos a atualização da coluna branch_id da tabela employee, onde branch_id 1 bate com o emp_id 100. Por fim inseremos valores normalmente na tabela employee.
+
+
+O resultado:
+
+```sql
++--------+------------+-----------+------------+------+--------+----------+-----------+
+| emp_id | first_name | last_name | birth_day  | sex  | salary | super_id | branch_id |
++--------+------------+-----------+------------+------+--------+----------+-----------+
+|    100 | David      | Wallace   | 1967-11-17 | M    | 250000 |     NULL |         1 |
+|    101 | Jan        | Levinson  | 1961-05-11 | F    | 110000 |      100 |         1 |
++--------+------------+-----------+------------+------+--------+----------+-----------+
+```
