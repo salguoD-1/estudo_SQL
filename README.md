@@ -1,3 +1,7 @@
+## Créditos
+Todo o material utilizado faz parte do curso [SQL Tutorial - Full Database Course for Beginners
+](https://www.youtube.com/watch?v=HXV3zeQKqGY&t=6765s).
+
 # O que é um banco de dados?
 
 Um banco de dados é basicamente qualquer coleção de dados relacionados.
