@@ -1171,6 +1171,10 @@ A função SUM() retorna a soma de todos os valores de uma coluna.
 O resultado:
 
 ```sql
-SELECT SUM(salary) FROM employee;
++-------------+
+| SUM(salary) |
++-------------+
+|      836000 |
++-------------+
 ```
 
