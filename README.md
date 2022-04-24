@@ -1104,3 +1104,73 @@ O resultado:
 | F    |
 +------+
 ```
+
+
+## SQL Functions(Funções)
+
+Digamos que queremos contar quantos emp_id's há na nossa tabela employee, para isso fazemos uso da função COUNT(nome_da_coluna).
+
+```sql
+SELECT COUNT(emp_id) FROM emplyee;
+```
+
+O resultado:
+
+```sql
++---------------+
+| COUNT(emp_id) |
++---------------+
+|             9 |
++---------------+
+```
+
+Basicamente retorna 9 id's da coluna emp_id
+
+Outro exemplo, encontre o número de funcionárias nascidas depois do ano 1970
+
+```sql
+SELECT COUNT(emp_id) FROM employee WHERE sex = 'F' AND birth_date > '1970-01-01';
+```
+
+O resultado:
+
+```sql
++---------------+
+| COUNT(emp_id) |
++---------------+
+|             2 |
++---------------+
+```
+
+Encontrando a média salarial de todos os funcionários da tabela employee
+
+```sql
+SELECT AVG(salary) FROM employee;
+```
+
+No exemplo acima fazemos uso da função AVG() que retorna a média de válores da tabela.
+
+O resultado:
+
+```sql
++-------------+
+| AVG(salary) |
++-------------+
+|  92888.8889 |
++-------------+
+```
+
+Encontrando a soma total de todos os salários dos funcionários da tabela employee
+
+```sql
+SELECT SUM(salary) FROM employee;
+```
+
+A função SUM() retorna a soma de todos os valores de uma coluna.
+
+O resultado:
+
+```sql
+SELECT SUM(salary) FROM employee;
+```
+
