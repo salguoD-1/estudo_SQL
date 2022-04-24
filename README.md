@@ -1057,3 +1057,50 @@ INSERT INTO works_with VALUES(107, 405, 26000);
 INSERT INTO works_with VALUES(102, 406, 15000);
 INSERT INTO works_with VALUES(105, 406, 130000);
 ```
+
+## Mais alguns comandos básicos
+
+Utilizando o atributo AS para mostrar a(s) saída(s) da(s) coluna(s) personalizada(s).
+
+Ex: Digamos que queremos exibir o primeiro e último nome da pessoa, mas de forma com que as colunas fiquem personalizadas, para isso fazemos o seguinte:
+
+```sql
+SELECT first_name AS forename, last_name AS surname FROM employee;
+```
+
+O resultado:
+
+```sql
++----------+----------+
+| forename | surname  |
++----------+----------+
+| David    | Wallace  |
+| Jan      | Levinson |
+| Michael  | Scott    |
+| Angela   | Martin   |
+| Kelly    | Kapoor   |
+| Stanley  | Hudson   |
+| Josh     | Porter   |
+| Andy     | Bernard  |
+| Jim      | Halpert  |
++----------+----------+
+```
+
+Dessa forma podemos exibir uma saída com as colunas "personalizadas".
+
+* O comando DISTINCT retorna valores distintos(diferentes), nesse caso se utilizarmos na coluna sex irá retornar apenas M, F, vejamos:
+
+```sql
+SELECT DISTINCT sex FROM employee;
+```
+
+O resultado:
+
+```sql
++------+
+| sex  |
++------+
+| M    |
+| F    |
++------+
+```
