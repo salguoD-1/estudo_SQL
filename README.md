@@ -1178,3 +1178,45 @@ O resultado:
 +-------------+
 ```
 
+## Usando a função COUNT() juntamente com o GROUP BY
+
+Digamos que queremos ver o total de dados na tabela sex e também queremos agrupar o total separando M e F, vejamos:
+
+```sql
+SELECT COUNT(sex), sex FROM employee GROUP BY sex;
+```
+
+O exemplo acima irá contar o total de dados que há na tabela sex e em seguida irá exibir os valores(M e F) ordenados pelo seu sexo(Ex: 3 F e 6 M).
+
+Vejamos o resultado:
+
+```sql
++------------+------+
+| COUNT(sex) | sex  |
++------------+------+
+|          6 | M    |
+|          3 | F    |
++------------+------+
+```
+
+Mas digamos que queremos saber o total que um funcionário vendeu(Nesse caso o da tabela works_with que possui as colunas emp_id, client_id e total_sales)
+
+```sql
+SELECT SUM(total_sales), emp_id FROM works_with GROUP BY emp_id;
+```
+
+O exemplo acima realiza a soma de todas as vendas de cada funcionário, para isso fazemos a soma utilizando a função SUM() que recebe como argumento a coluna total_sales da tabela works_with e em seguida passamos mais uma coluna que é a imp_id, após isso indicamos que estamos querendo acessar as informações da tabela works_with e utilizamos o atributo GROUP BY para ordenar a coluna emp_id. Dessa forma irá retornar o total de venda na primeira coluna e o emp_id de cada um. Vejamos:
+
+```sql
++------------------+--------+
+| SUM(total_sales) | emp_id |
++------------------+--------+
+|           282000 |    102 |
+|           218000 |    105 |
+|            31000 |    107 |
+|            34500 |    108 |
++------------------+--------+
+```
+
+## Wildcards(curingas)
+
