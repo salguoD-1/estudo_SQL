@@ -1020,7 +1020,7 @@ INSERT INTO employee VALUES(108, 'Jim', 'Halpert', '1978-10-01', 'M', 71000, 106
 
 Até esse momento trabalhamos com as tabelas employee e branch, inseremos e atualizamos os dados.
 
-** Inserindo dados na tabela BRANCH SUPPLIER
+* Inserindo dados na tabela BRANCH SUPPLIER
 
 ```sql
 INSERT INTO branch_supplier VALUES(2, 'Hammer Mill', 'Paper');
@@ -1032,7 +1032,7 @@ INSERT INTO branch_supplier VALUES(3, 'Hammer Mill', 'Paper');
 INSERT INTO branch_supplier VALUES(3, 'Stamford Lables', 'Custom Forms');
 ```
 
-** Inserindo dados na tabela CLIENT
+* Inserindo dados na tabela CLIENT
 
 ```sql
 INSERT INTO client VALUES(400, 'Dunmore Highschool', 2);
@@ -1044,7 +1044,7 @@ INSERT INTO client VALUES(405, 'Times Newspaper', 3);
 INSERT INTO client VALUES(406, 'FedEx', 2);
 ```
 
-** Inserindo dados na tabela WORKS_WITH
+* Inserindo dados na tabela WORKS_WITH
 
 ```sql
 INSERT INTO works_with VALUES(105, 400, 55000);
